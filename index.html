@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gesture Recognition RPS</title>
+    <link rel="stylesheet" href="style.css" />
+    <!-- MediaPipe Hands + utils (using CDN for dev convenience). Copy to libs/ for offline use. -->
+    <script defer src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.min.js"></script>
+    <script type="module" src="script.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Rock Paper Scissors: Gesture Arena</h1>
+        <p>Show your move to the camera, wait for the countdown, and battle the AI.</p>
+    </header>
+
+    <main>
+        <section id="primary-screen" aria-label="Player view">
+            <div class="video-wrapper">
+                <video id="player-video" autoplay playsinline></video>
+                <canvas id="landmark-canvas"></canvas>
+                <div id="hand-detection-status" role="status">Waiting for hand...</div>
+            </div>
+            <div class="controls">
+                <button id="start-normal-btn">Start Round (Normal Mode)</button>
+                <button id="start-evil-btn">Start Round (Evil Mode)</button>
+                <button id="toggle-overlay-btn">Toggle Landmarks</button>
+                <label class="mute-toggle">
+                    <input type="checkbox" id="mute-audio" /> Mute SFX
+                </label>
+            </div>
+            <div class="debug-panel">
+                <h2>Debug Info</h2>
+                <pre id="debug-info">Hand landmarks and finger states will appear here for quick inspection.</pre>
+            </div>
+        </section>
+
+        <section id="secondary-screen" aria-label="Audience view">
+            <div class="scoreboard">
+                <div class="score">
+                    <span class="label">Player</span>
+                    <span id="player-score" class="value">0</span>
+                </div>
+                <div class="score">
+                    <span class="label">AI</span>
+                    <span id="ai-score" class="value">0</span>
+                </div>
+                <div class="score">
+                    <span class="label">Draws</span>
+                    <span id="draw-score" class="value">0</span>
+                </div>
+            </div>
+
+            <div class="countdown" id="countdown-display">Hand ready?</div>
+
+            <div class="gesture-display">
+                <div class="gesture-card">
+                    <h3>Player</h3>
+                    <img id="player-gesture-img" src="assets/rock.png" alt="Player gesture icon" />
+                    <p id="player-gesture-label">Ready</p>
+                </div>
+                <div class="gesture-card">
+                    <h3>AI</h3>
+                    <img id="ai-gesture-img" src="assets/rock.png" alt="AI gesture icon" />
+                    <p id="ai-gesture-label">Waiting</p>
+                </div>
+            </div>
+
+            <div class="result-banner" id="result-banner">Awaiting next round...</div>
+
+            <div class="placeholders">
+                <div class="animation-placeholder" id="animation-slot">
+                    <!-- TODO: Add particle/confetti animations while revealing winner. -->
+                    <p>Animation placeholder</p>
+                </div>
+                <div class="soundtrack-placeholder" id="soundtrack-slot">
+                    <!-- TODO: Add looping background music or dynamic soundtrack controller. -->
+                    <p>Soundtrack placeholder</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Built with MediaPipe Hands, vanilla JavaScript, and a dash of friendly competition.</p>
+        <p class="todo-note">Team TODOs: Replace placeholder assets, refine UI themes, expand AI personalities, hook up achievements.</p>
+    </footer>
+
+    <!-- Placeholder audio elements; replace sources with final SFX assets. -->
+    <audio id="sfx-win" src="assets/win.mp3" preload="auto"></audio>
+    <audio id="sfx-lose" src="assets/lose.mp3" preload="auto"></audio>
+    <audio id="sfx-draw" src="assets/draw.mp3" preload="auto"></audio>
+</body>
+</html>
